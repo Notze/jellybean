@@ -165,5 +165,8 @@ public class Bean {
 	public int getY() {return y;}
 	public int getPoints() {return points;}
 	public void setMovespeed(int speed) {moveSpeed = speed;}
+	public void setDirection(int direction) {this.direction = direction;}
+	public void setX(int x) {this.x = x;}
+	public void setY(int y) {this.y = y;}
 	
 }

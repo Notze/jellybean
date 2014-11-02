@@ -26,6 +26,9 @@ public class MainFrame extends BasicGame{
 	private List<Bean> beans = new ArrayList<Bean>();
 	Anemoneme anemoneme;
 	
+	//MouseMomento zum speichern der vorherigen Mausposition
+	MouseMomento m = MouseMomento.getInstance();
+	
 	public MainFrame(){
 		super("Manuelas JellyBean Game");
 	}
@@ -51,18 +54,43 @@ public class MainFrame extends BasicGame{
 	public void update(GameContainer gc, int delta) throws SlickException{
 		// Eingabegeräte abfragen
 		Input input = gc.getInput();
-		int mouseX = input.getMouseX();
-		int mouseY = input.getMouseY();
+		double mouseX = input.getMouseX();
+		double mouseY = input.getMouseY();
+		double deltaX = mouseX - m.getX();
+		double deltaY = mouseY - m.getY();
+		m.setX(mouseX);
+		m.setY(mouseY);
 		
 		// Spiel beenden
 		if(input.isKeyDown(Input.KEY_ESCAPE))
 			System.exit(0);
 		
 		// Bean bei klick anhalten
-		if(input.isMousePressed(0)) {
+		if(input.isMouseButtonDown(0)) {
 			// TODO
 			// Unterm Cursors nach bean suchen
 			// bean anhalten
+			for (Bean b : beans)
+				if (mouseX > b.getX()-b.getImage().getWidth()/2
+						&& mouseX < b.getX()+b.getImage().getWidth()/2
+						&& mouseY > b.getY()-b.getImage().getHeight()/2
+						&& mouseY < b.getY()+b.getImage().getHeight()/2) {
+					b.setMovespeed(Math.min(6, 
+							(int) Math.sqrt(deltaX*deltaX + deltaY*deltaY)));
+					int newDirection = (int) Math.toDegrees(Math.acos( deltaX / Math.sqrt(deltaX*deltaX + deltaY*deltaY) ));
+					if (deltaY>0) newDirection *= -1;
+					b.setDirection(newDirection);
+					b.setX((int) mouseX);
+					b.setY((int) mouseY);
+					
+					// Bean an den Anfang des Arrays stellen damit diese nicht beim ziehen ausgetauscht wird
+					if (beans.get(0) != b) {
+						beans.set(beans.indexOf(b), beans.get(0));
+						beans.set(0, b);
+					}
+					
+					break; 
+				}
 		}
 		
 		// Bean animieren
