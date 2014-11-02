@@ -24,7 +24,7 @@ public class Bean {
 	private double scale;
 	private int x,y;
 	private int WIDTH, HEIGHT;
-	private int INIT_POINTS = 10;
+	private int INIT_POINTS = 1;
 	private int points = INIT_POINTS;
 	
 	private boolean isGettingEaten = false;

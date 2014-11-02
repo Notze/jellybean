@@ -65,11 +65,8 @@ public class MainFrame extends BasicGame{
 		if(input.isKeyDown(Input.KEY_ESCAPE))
 			System.exit(0);
 		
-		// Bean bei klick anhalten
+		// Bean bei klick grabben
 		if(input.isMouseButtonDown(0)) {
-			// TODO
-			// Unterm Cursors nach bean suchen
-			// bean anhalten
 			for (Bean b : beans)
 				if (mouseX > b.getX()-b.getImage().getWidth()/2
 						&& mouseX < b.getX()+b.getImage().getWidth()/2
@@ -144,7 +141,7 @@ public class MainFrame extends BasicGame{
 			anemoneme.draw();
 		
 		//Punktestand zeichnen
-		String scoreText = "Punktestand: " + anemoneme.getPoints();
+		String scoreText = "Jellybeans gegessen: " + anemoneme.getPoints();
 		SCORE_TRUE_TYPE_FONT.drawString(
 				WIDTH/2 - SCORE_TRUE_TYPE_FONT.getWidth(scoreText)/2,
 				SCORE_TRUE_TYPE_FONT.getHeight(scoreText)/2, 
