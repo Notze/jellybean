@@ -155,7 +155,7 @@ public class MainFrame extends BasicGame{
 		game.setDisplayMode(WIDTH, HEIGHT, false);
 		game.setVSync(true);
 		game.setTargetFrameRate(FRAMERATE);
-		game.setShowFPS(true);
+		game.setShowFPS(false);
 		game.setFullscreen(false);
 		game.start();
 	}
