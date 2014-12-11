@@ -1,6 +1,7 @@
 import java.util.List;
 
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 
 /**
@@ -14,6 +15,7 @@ public class Anemoneme {
 	private Image anemoneme;
 	private Image anemonemeOriginal;
 	private Image controls;
+	private Music spawnSound, moveLoop;
 	private final int SPEED = 5;
 	private final double SCALE = 0.2;
 	private int ROTATION_VALUE = 5;
@@ -44,6 +46,9 @@ public class Anemoneme {
 			anemonemeOriginal = (new Image("res/anemoneme.png")).getScaledCopy((float) SCALE);
 			anemoneme = anemonemeOriginal;
 			controls = (new Image("res/controls.png"));
+			
+			spawnSound = new Music("res/spawn.wav");
+			moveLoop = new Music("res/mv1.wav");
 		} catch (SlickException e) {}
 		this.x = x;
 		this.y = y;
@@ -69,6 +74,7 @@ public class Anemoneme {
 				try {controls.destroy();} catch (SlickException e) {}
 				anemoneme = anemonemeOriginal;
 				spawn = false;
+				spawnSound.play();
 				
 			} else {
 			
@@ -98,6 +104,9 @@ public class Anemoneme {
 		
 		if(spawn)
 			return;
+		
+		if(!moveLoop.playing())
+			moveLoop.play();
 		
 		delta /= 10;
 		

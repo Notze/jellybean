@@ -160,7 +160,7 @@ public class MainFrame extends BasicGame{
 		AppGameContainer game = new AppGameContainer(new MainFrame());
 		try {
 			@SuppressWarnings("resource")
-			BufferedReader in = new BufferedReader(new FileReader("settings.cfg"));
+			BufferedReader in = new BufferedReader(new FileReader("./settings.cfg"));
 			String line = null;
 			while ((line = in.readLine()) != null) {
 				String option = line.substring(0, 5);
@@ -182,6 +182,9 @@ public class MainFrame extends BasicGame{
 					break;
 				case "vSync":
 					VSYNC = Boolean.valueOf(line.substring(6));
+					break;
+				case "beans":
+					BEANS_COUNT = Integer.parseInt(line.substring(6));
 					break;
 				}
 			}
