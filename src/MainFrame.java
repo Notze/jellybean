@@ -163,29 +163,31 @@ public class MainFrame extends BasicGame{
 			BufferedReader in = new BufferedReader(new FileReader("./settings.cfg"));
 			String line = null;
 			while ((line = in.readLine()) != null) {
-				String option = line.substring(0, 5);
-				switch(option){
-				case "width":
-					WIDTH = Integer.parseInt(line.substring(6));
-					break;
-				case "heigh":
-					HEIGHT = Integer.parseInt(line.substring(7));
-					break;
-				case "frame":
-					FRAMERATE = Integer.parseInt(line.substring(10));
-					break;
-				case "showF":
-					SHOWFPS = Boolean.valueOf(line.substring(8));
-					break;
-				case "fulls":
-					FULLSCREEN = Boolean.valueOf(line.substring(11));
-					break;
-				case "vSync":
-					VSYNC = Boolean.valueOf(line.substring(6));
-					break;
-				case "beans":
-					BEANS_COUNT = Integer.parseInt(line.substring(6));
-					break;
+				if(line.length()>=5) {
+					String option = line.substring(0, 5);
+					switch(option){
+					case "width":
+						WIDTH = Integer.parseInt(line.substring(6));
+						break;
+					case "heigh":
+						HEIGHT = Integer.parseInt(line.substring(7));
+						break;
+					case "frame":
+						FRAMERATE = Integer.parseInt(line.substring(10));
+						break;
+					case "showF":
+						SHOWFPS = Boolean.valueOf(line.substring(8));
+						break;
+					case "fulls":
+						FULLSCREEN = Boolean.valueOf(line.substring(11));
+						break;
+					case "vSync":
+						VSYNC = Boolean.valueOf(line.substring(6));
+						break;
+					case "beans":
+						BEANS_COUNT = Integer.parseInt(line.substring(6));
+						break;
+					}
 				}
 			}
 		} catch (IOException e) {
