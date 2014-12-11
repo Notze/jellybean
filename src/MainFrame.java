@@ -7,15 +7,21 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
 import java.awt.Font;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainFrame extends BasicGame{
 
-	//Abmessung des Spielfensters und Framerate
-	private static final int WIDTH = 800;
-	private static final int HEIGHT = 600;
-	private static final int FRAMERATE = 60;
+	//Abmessung des Spielfensters und Sonstiges
+	private static int WIDTH = 800;
+	private static int HEIGHT = 600;
+	private static int FRAMERATE = 60;
+	private static boolean VSYNC = true;
+	private static boolean SHOWFPS = false;
+	private static boolean FULLSCREEN = false;
 	
 	//Schrift für den Punktestand
 	private static Font SCORE_FONT;
@@ -152,11 +158,41 @@ public class MainFrame extends BasicGame{
 	public static void main(String[] args) throws SlickException{
 		
 		AppGameContainer game = new AppGameContainer(new MainFrame());
+		try {
+			@SuppressWarnings("resource")
+			BufferedReader in = new BufferedReader(new FileReader("settings.cfg"));
+			String line = null;
+			while ((line = in.readLine()) != null) {
+				String option = line.substring(0, 5);
+				switch(option){
+				case "width":
+					WIDTH = Integer.parseInt(line.substring(6));
+					break;
+				case "heigh":
+					HEIGHT = Integer.parseInt(line.substring(7));
+					break;
+				case "frame":
+					FRAMERATE = Integer.parseInt(line.substring(10));
+					break;
+				case "showF":
+					SHOWFPS = Boolean.valueOf(line.substring(8));
+					break;
+				case "fulls":
+					FULLSCREEN = Boolean.valueOf(line.substring(11));
+					break;
+				case "vSync":
+					VSYNC = Boolean.valueOf(line.substring(6));
+					break;
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		game.setDisplayMode(WIDTH, HEIGHT, false);
-		game.setVSync(true);
+		game.setVSync(VSYNC);
 		game.setTargetFrameRate(FRAMERATE);
-		game.setShowFPS(false);
-		game.setFullscreen(false);
+		game.setShowFPS(SHOWFPS);
+		game.setFullscreen(FULLSCREEN);
 		game.start();
 	}
 	
