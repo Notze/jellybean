@@ -3,6 +3,7 @@ import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
@@ -22,6 +23,7 @@ public class MainFrame extends BasicGame{
 	private static boolean VSYNC = true;
 	private static boolean SHOWFPS = false;
 	private static boolean FULLSCREEN = false;
+	private static boolean SOUND = true;
 	
 	//Schrift für den Punktestand
 	private static Font SCORE_FONT;
@@ -31,6 +33,7 @@ public class MainFrame extends BasicGame{
 	public static int BEANS_COUNT = 10;
 	private List<Bean> beans = new ArrayList<Bean>();
 	Anemoneme anemoneme;
+	Music moveLoop;
 	
 	//MouseMomento zum speichern der vorherigen Mausposition
 	MouseMomento m = MouseMomento.getInstance();
@@ -50,6 +53,7 @@ public class MainFrame extends BasicGame{
 		
 		SCORE_FONT = new Font("Verdana", Font.PLAIN, 18);
 		SCORE_TRUE_TYPE_FONT = new TrueTypeFont(SCORE_FONT, false);
+		moveLoop = new Music("res/rocket.wav");
 	}
 	
 	/**
@@ -108,25 +112,38 @@ public class MainFrame extends BasicGame{
 		
 		// Steuerung Anemoneme
 		if(anemoneme != null){
+			Boolean anyAction = false;
 			if((input.isKeyDown(Input.KEY_W)
 					|| input.isKeyDown(Input.KEY_UP))
 					&& anemoneme.getY() > 0){
 				anemoneme.move(Anemoneme.directions.UP, delta);
+				anyAction = true;
 			}
 			if((input.isKeyDown(Input.KEY_A)
 					|| input.isKeyDown(Input.KEY_LEFT))
 					&& anemoneme.getX() > 0){
 				anemoneme.move(Anemoneme.directions.LEFT, delta);
+				anyAction = true;
 			}
 			if((input.isKeyDown(Input.KEY_S)
 					|| input.isKeyDown(Input.KEY_DOWN))
 					&& anemoneme.getY() < HEIGHT){
 				anemoneme.move(Anemoneme.directions.DOWN, delta);
+				anyAction = true;
 			}
 			if((input.isKeyDown(Input.KEY_D)
 					|| input.isKeyDown(Input.KEY_RIGHT))
 					&& anemoneme.getX() < WIDTH){
 				anemoneme.move(Anemoneme.directions.RIGHT, delta);
+				anyAction = true;
+			}
+			
+			if (SOUND) {
+				if(!anyAction) {
+					moveLoop.stop();
+				} else if(!moveLoop.playing()) {
+					moveLoop.play();
+				}
 			}
 		}
 	}
@@ -186,6 +203,9 @@ public class MainFrame extends BasicGame{
 						break;
 					case "beans":
 						BEANS_COUNT = Integer.parseInt(line.substring(6));
+						break;
+					case "moveS":
+						SOUND = Boolean.valueOf(line.substring(10));
 						break;
 					}
 				}
